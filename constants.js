@@ -1,5 +1,5 @@
 // configuração e regras do jogo
 
-const columns = 10;
-const rows = 20;
-const blockSize = 30;
+const COLUMNS = 10;
+const ROWS = 20;
+const BLOCK_SIZE = 30;

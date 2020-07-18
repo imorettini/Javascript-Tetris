@@ -10,6 +10,6 @@ class Board {
 
     //Preencher matriz com zeros
     getEmptyBoard() {
-        return Array.from({ length: rows }, () => Array(columns).fill(0));
+        return Array.from({ length: ROWS }, () => Array(COLUMNS).fill(0));
     }
 }
