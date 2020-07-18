@@ -1,3 +1,3 @@
-### Javascript Tetris
+# Javascript Tetris
 
-# Projeto em construção :)
+### Projeto em construção :)
