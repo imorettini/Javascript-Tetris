@@ -26,14 +26,14 @@ class Piece {
     }
 
     draw() {
-        this.context.fillStyle = this.color;
-        this.shape.forEach((row, y) => {
-            row.forEach((value, x) => {
-                if (value > 0) {
-                    this.context.fillRect(this.x + x, this.y + y, 1, 1);
-                }
-            });
-        });
-
+        this.piece.draw();
+        this.drawBoard();
+    }
+    move(p) {
+        this.x = p.x;
+        this.y = p.y;
+    }
+    randomizeTetrominoType(noOfTypes) {
+        return Math.floor(Math.random() * noOfTypes + 1);
     }
 }

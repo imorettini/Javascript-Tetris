@@ -8,17 +8,64 @@ context.canvas.height = ROWS * BLOCK_SIZE;
 
 //Medir os blocos nos eixos X e Y
 context.scale(BLOCK_SIZE, BLOCK_SIZE);
-/* Ao usar a escala, sempre podemos 
-fornecer o tamanho dos blocos como um(1), em vez 
-de ter que calcular com BLOCK_SIZE em qualquer lugar, 
-o que simplifica nosso código. */
 
 let board = new Board();
 
+moves = {
+
+
+    [KEY.LEFT]: p => ({...p, x: p.x - 1 }),
+    [KEY.RIGHT]: p => ({...p, x: p.x + 1 }),
+    [KEY.DOWN]: p => ({...p, y: p.y + 1 }),
+    [KEY.SPACE]: p => ({...p, y: p.y + 1 })
+
+};
+
 function play() {
+    addEventListener();
     board.getEmptyBoard();
     let piece = new Piece(context);
-    piece.draw();
-
+    animate();
     board.piece = piece;
+
+}
+
+function addEventListener() {
+    document.addEventListener('keydown', event => {
+        if (moves[event.keyCode]) {
+            event.preventDefault();
+
+            let p = moves[event.keyCode](board.piece);
+
+            if (board.valid(p)) {
+                board.piece.move(p);
+
+                context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+                board.piece.draw();
+            }
+
+            if (event.KeyCode === KEY.SPACE) {
+                while (board.valid(p)) {
+                    board.piece.move(p);
+                    p = moves[KEY.DOWN](board.piece);
+                }
+            }
+        }
+    });
+}
+
+function animate(now = 0) {
+    time = { start: 0, elapsed: 0, level: 1000 };
+    time.elapsed = now - time.start;
+
+    if (time.elapsed > time.level) {
+        time.start = now;
+
+        this.drop();
+    }
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+    board.draw();
+    requestId = requestAnimationFrame(animate);
 }
