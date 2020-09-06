@@ -1,38 +1,47 @@
 // lógica das peças
-class Piece {
-    x;
-    y;
-    color;
-    shape;
-    context;
 
+class Piece {
     constructor(context) {
         this.context = context;
         this.spawn();
     }
 
     spawn() {
-        this.color = 'blue';
-        this.shape = [
-            [2, 0, 0],
-            [2, 2, 2],
-            [0, 0, 0]
-        ];
-
-        //Posicionamento da peça no inicio
-        this.x = 3;
+        this.typeId = this.randomizeTetrominoType(COLORS.length - 1);
+        this.shape = SHAPES[this.typeId];
+        this.color = COLORS[this.typeId];
+        this.x = 0;
         this.y = 0;
-
+        this.hardDropped = false;
     }
 
     draw() {
-        this.piece.draw();
-        this.drawBoard();
+        this.context.fillStyle = this.color;
+        this.shape.forEach((row, y) => {
+            row.forEach((value, x) => {
+                if (value > 0) {
+                    this.context.fillRect(this.x + x, this.y + y, 1, 1);
+                }
+            });
+        });
     }
+
     move(p) {
-        this.x = p.x;
-        this.y = p.y;
+        if (!this.hardDropped) {
+            this.x = p.x;
+            this.y = p.y;
+        }
+        this.shape = p.shape;
     }
+
+    hardDrop() {
+        this.hardDropped = true;
+    }
+
+    setStartingPosition() {
+        this.x = this.typeId === 4 ? 4 : 3;
+    }
+
     randomizeTetrominoType(noOfTypes) {
         return Math.floor(Math.random() * noOfTypes + 1);
     }
