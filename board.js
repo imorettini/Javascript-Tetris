@@ -1,5 +1,11 @@
-// lógica do board
 class Board {
+    context;
+    contextNext;
+    grid;
+    piece;
+    next;
+    requestId;
+    time;
 
     constructor(context, contextNext) {
         this.context = context;
@@ -8,27 +14,28 @@ class Board {
     }
 
     init() {
-        // Calcula o tamanho do quadro das constantes
+
         this.context.canvas.width = COLUMNS * BLOCK_SIZE;
         this.context.canvas.height = ROWS * BLOCK_SIZE;
-
         this.context.scale(BLOCK_SIZE, BLOCK_SIZE);
     }
 
-    //Reseta o board quando inicia um novo jogo
     reset() {
-        this.grid = this.getEmptyBoard();
+        this.grid = this.getEmptyGrid();
         this.piece = new Piece(this.context);
         this.piece.setStartingPosition();
         this.getNewPiece();
     }
 
     getNewPiece() {
-        const { width, height } = this.contextNext.canvas;
         this.next = new Piece(this.contextNext);
-        this.contextNext.clearRect(0, 0, width, height);
+        this.contextNext.clearRect(
+            0,
+            0,
+            this.contextNext.canvas.width,
+            this.contextNext.canvas.height
+        );
         this.next.draw();
-
     }
 
     draw() {
@@ -37,7 +44,6 @@ class Board {
     }
 
     drop() {
-
         let p = moves[KEY.DOWN](this.piece);
         if (this.valid(p)) {
             this.piece.move(p);
@@ -45,7 +51,7 @@ class Board {
             this.freeze();
             this.clearLines();
             if (this.piece.y === 0) {
-                //Fim de Jogo
+                // Game over
                 return false;
             }
             this.piece = this.next;
@@ -54,38 +60,30 @@ class Board {
             this.getNewPiece();
         }
         return true;
-
     }
 
     clearLines() {
         let lines = 0;
 
         this.grid.forEach((row, y) => {
-            // se o valor for maior que zero, então temos uma linha completa
-            if (row.every((value) => value > 0)) {
+
+
+            if (row.every(value => value > 0)) {
                 lines++;
-
-                //remove a linha
                 this.grid.splice(y, 1);
-
                 this.grid.unshift(Array(COLUMNS).fill(0));
             }
         });
 
         if (lines > 0) {
-            //Calcula os pontos da linhas completas e leveis 
             account.score += this.getLinesClearedPoints(lines);
             account.lines += lines;
-
             if (account.lines >= LINES_PER_LEVEL) {
                 account.level++;
-
                 account.lines -= LINES_PER_LEVEL;
-
                 time.level = LEVEL[account.level];
             }
         }
-
     }
 
     valid(p) {
@@ -93,7 +91,10 @@ class Board {
             return row.every((value, dx) => {
                 let x = p.x + dx;
                 let y = p.y + dy;
-                return value === 0 || (this.isInsideWalls(x, y) && this.notOccupied(x, y));
+                return (
+                    value === 0 ||
+                    (this.insideWalls(x) && this.aboveFloor(y) && this.notOccupied(x, y))
+                );
             });
         });
     }
@@ -106,7 +107,6 @@ class Board {
                 }
             });
         });
-
     }
 
     drawBoard() {
@@ -119,11 +119,17 @@ class Board {
             });
         });
     }
+
     getEmptyGrid() {
         return Array.from({ length: ROWS }, () => Array(COLUMNS).fill(0));
     }
-    isInsideWalls(x) {
-        return x >= 0 && x < COLUMNS && y <= ROWS;
+
+    insideWalls(x) {
+        return x >= 0 && x < COLUMNS;
+    }
+
+    aboveFloor(y) {
+        return y <= ROWS;
     }
 
     notOccupied(x, y) {
@@ -138,15 +144,14 @@ class Board {
                     [p.shape[x][y], p.shape[y][x]] = [p.shape[y][x], p.shape[x][y]];
                 }
             }
-
             if (direction === ROTATION.RIGHT) {
-                p.shape.forEach((row) => row.reverse());
+                p.shape.forEach(row => row.reverse());
             } else if (direction === ROTATION.LEFT) {
                 p.shape.reverse();
             }
         }
-        return p;
 
+        return p;
     }
 
     getLinesClearedPoints(lines, level) {
@@ -163,5 +168,4 @@ class Board {
 
         return (account.level + 1) * lineClearPoints;
     }
-
 }
