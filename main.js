@@ -1,7 +1,7 @@
 const canvas = document.getElementById('board');
-const ctx = canvas.getContext('2d');
+const context = canvas.getContext('2d');
 const canvasNext = document.getElementById('next');
-const ctxNext = canvasNext.getContext('2d');
+const contextNext = canvasNext.getContext('2d');
 
 let accountValues = {
     score: 0,
@@ -36,15 +36,15 @@ moves = {
     [KEY.Q]: (p) => board.rotate(p, ROTATION.LEFT)
 };
 
-let board = new Board(ctx, ctxNext);
+let board = new Board(context, contextNext);
 
 initNext();
 
 function initNext() {
     // Calculate size of canvas from constants.
-    ctxNext.canvas.width = 4 * BLOCK_SIZE;
-    ctxNext.canvas.height = 4 * BLOCK_SIZE;
-    ctxNext.scale(BLOCK_SIZE, BLOCK_SIZE);
+    contextNext.canvas.width = 4 * BLOCK_SIZE;
+    contextNext.canvas.height = 4 * BLOCK_SIZE;
+    contextNext.scale(BLOCK_SIZE, BLOCK_SIZE);
 }
 
 function addEventListener() {
@@ -110,7 +110,7 @@ function animate(now = 0) {
     }
 
     // Clear board before drawing new state.
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
     board.draw();
     requestId = requestAnimationFrame(animate);
@@ -118,11 +118,11 @@ function animate(now = 0) {
 
 function gameOver() {
     cancelAnimationFrame(requestId);
-    ctx.fillStyle = 'black';
-    ctx.fillRect(1, 3, 8, 1.2);
-    ctx.font = '1px Arial';
-    ctx.fillStyle = 'red';
-    ctx.fillText('GAME OVER', 1.8, 4);
+    context.fillStyle = 'black';
+    context.fillRect(1, 3, 8, 1.2);
+    context.font = '1px Arial';
+    context.fillStyle = 'red';
+    context.fillText('GAME OVER', 1.8, 4);
 }
 
 function pause() {
@@ -134,9 +134,9 @@ function pause() {
     cancelAnimationFrame(requestId);
     requestId = null;
 
-    ctx.fillStyle = 'black';
-    ctx.fillRect(1, 3, 8, 1.2);
-    ctx.font = '1px Arial';
-    ctx.fillStyle = 'yellow';
-    ctx.fillText('PAUSED', 3, 4);
+    context.fillStyle = 'black';
+    context.fillRect(1, 3, 8, 1.2);
+    context.font = '1px Arial';
+    context.fillStyle = 'yellow';
+    context.fillText('PAUSED', 3, 4);
 }

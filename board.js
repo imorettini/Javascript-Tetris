@@ -1,12 +1,5 @@
 // lógica do board
 class Board {
-    context;
-    contextNext;
-    grid;
-    piece;
-    next;
-    requestId;
-    time;
 
     constructor(context, contextNext) {
         this.context = context;
@@ -40,7 +33,7 @@ class Board {
 
     draw() {
         this.piece.draw();
-        this.piece.drawBoard();
+        this.drawBoard();
     }
 
     drop() {
@@ -75,7 +68,7 @@ class Board {
                 //remove a linha
                 this.grid.splice(y, 1);
 
-                this.grid.unshift(Arry(COLUMNS).fill(0));
+                this.grid.unshift(Array(COLUMNS).fill(0));
             }
         });
 
@@ -89,7 +82,7 @@ class Board {
 
                 account.lines -= LINES_PER_LEVEL;
 
-                this.time.level = LEVEL[account.level];
+                time.level = LEVEL[account.level];
             }
         }
 
@@ -163,7 +156,7 @@ class Board {
             lines === 2 ?
             POINTS.DOUBLE :
             lines === 3 ?
-            POINTS.TRIPLES :
+            POINTS.TRIPLE :
             lines === 4 ?
             POINTS.TETRIS :
             0;

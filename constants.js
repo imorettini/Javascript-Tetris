@@ -13,7 +13,7 @@ const COLORS = [
     'yellow',
     'green',
     'purple',
-    'red',
+    'red'
 ];
 Object.freeze(COLORS);
 
@@ -76,7 +76,7 @@ const POINTS = {
     TRIPLE: 500,
     TETRIS: 800,
     SOFT_DROP: 1,
-    HARD_DROP: 2
+    HARD_DROP: 2,
 }
 Object.freeze(POINTS);
 
