@@ -31,14 +31,11 @@ class Board {
     }
 
     getNewPiece() {
+        const { width, height } = this.contextNext.canvas;
         this.next = new Piece(this.contextNext);
-        this.contextNext.clearRect(
-            0,
-            0,
-            this.contextNext.canvas.width,
-            this.contextNext.canvas.height
-        );
+        this.contextNext.clearRect(0, 0, width, height);
         this.next.draw();
+
     }
 
     draw() {
@@ -48,22 +45,62 @@ class Board {
 
     drop() {
 
+        let p = moves[KEY.DOWN](this.piece);
+        if (this.valid(p)) {
+            this.piece.move(p);
+        } else {
+            this.freeze();
+            this.clearLines();
+            if (this.piece.y === 0) {
+                //Fim de Jogo
+                return false;
+            }
+            this.piece = this.next;
+            this.piece.context = this.context;
+            this.piece.setStartingPosition();
+            this.getNewPiece();
+        }
+        return true;
+
     }
 
     clearLines() {
+        let lines = 0;
+
+        this.grid.forEach((row, y) => {
+            // se o valor for maior que zero, então temos uma linha completa
+            if (row.every((value) => value > 0)) {
+                lines++;
+
+                //remove a linha
+                this.grid.splice(y, 1);
+
+                this.grid.unshift(Arry(COLUMNS).fill(0));
+            }
+        });
+
+        if (lines > 0) {
+            //Calcula os pontos da linhas completas e leveis 
+            account.score += this.getLinesClearedPoints(lines);
+            account.lines += lines;
+
+            if (account.lines >= LINES_PER_LEVEL) {
+                account.level++;
+
+                account.lines -= LINES_PER_LEVEL;
+
+                this.time.level = LEVEL[account.level];
+            }
+        }
 
     }
 
     valid(p) {
-        board[p.y + y][p.x + x] === 0;
         return p.shape.every((row, dy) => {
             return row.every((value, dx) => {
                 let x = p.x + dx;
                 let y = p.y + dy;
-                return (
-                    value === 0 ||
-                    (this.insideWalls(x) && this.aboveFloor(y) && this.notOccupied(x, y))
-                );
+                return value === 0 || (this.isInsideWalls(x, y) && this.notOccupied(x, y));
             });
         });
     }
@@ -92,34 +129,46 @@ class Board {
     getEmptyGrid() {
         return Array.from({ length: ROWS }, () => Array(COLUMNS).fill(0));
     }
-    insideWalls(x) {
-        return x >= 0 && x < COLUMNS;
-    }
-
-    aboveFloor(y) {
-        return y <= ROWS;
+    isInsideWalls(x) {
+        return x >= 0 && x < COLUMNS && y <= ROWS;
     }
 
     notOccupied(x, y) {
         return this.grid[y] && this.grid[y][x] === 0;
     }
 
-    rotate(p) {
-        let clone = JSON.parse(JSON.stringify(p));
+    rotate(piece, direction) {
+        let p = JSON.parse(JSON.stringify(piece));
+        if (!piece.hardDropped) {
+            for (let y = 0; y < p.shape.length; ++y) {
+                for (let x = 0; x < y; ++x) {
+                    [p.shape[x][y], p.shape[y][x]] = [p.shape[y][x], p.shape[x][y]];
+                }
+            }
 
-        for (let y = 0; y < p.shape.length; ++y) {
-            for (let x = 0; x < y; ++x) {
-                [p.shape[x][y], p.shape[y][x]] = [p.shape[y][x], p.shape[x][y]];
+            if (direction === ROTATION.RIGHT) {
+                p.shape.forEach((row) => row.reverse());
+            } else if (direction === ROTATION.LEFT) {
+                p.shape.reverse();
             }
         }
+        return p;
 
-        p.shape.forEach(row => row.reverse());
-
-        return clone;
     }
 
     getLinesClearedPoints(lines, level) {
+        const lineClearPoints =
+            lines === 1 ?
+            POINTS.SINGLE :
+            lines === 2 ?
+            POINTS.DOUBLE :
+            lines === 3 ?
+            POINTS.TRIPLES :
+            lines === 4 ?
+            POINTS.TETRIS :
+            0;
 
+        return (account.level + 1) * lineClearPoints;
     }
 
 }
