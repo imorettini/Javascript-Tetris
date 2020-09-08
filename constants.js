@@ -7,13 +7,13 @@ const BLOCK_SIZE = 30;
 const LINES_PER_LEVEL = 10;
 const COLORS = [
     'none',
-    'cyan',
-    'blue',
-    'orange',
-    'yellow',
-    'green',
-    'purple',
-    'red'
+    '#ff71ce',
+    '#01cdfe',
+    '#05ffa1',
+    '#fffb96',
+    '#9600ff',
+    '#b967ff',
+    '#4b7fff'
 ];
 Object.freeze(COLORS);
 
