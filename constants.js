@@ -10,7 +10,7 @@ const COLORS = [
     '#ff71ce',
     '#01cdfe',
     '#05ffa1',
-    '#fffb96',
+    '#FFF739',
     '#9600ff',
     '#b967ff',
     '#4b7fff'
