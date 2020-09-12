@@ -10,43 +10,67 @@
     <meta name="keywords" content="html5, Javascript, retrô, games">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
 
 </head>
 
 <body>
-    <div class='game-conteiner'>
-        <div class='board-conteiner'>
-            <canvas id="board" class="board"></canvas>
-        </div>
-        <div class='column-conteiner'>
-            <div class="right-column">
-                <div class='infos'>
-                    <h1>TETRIS</h1>
-                    <p>💎 Pontos: <span id="score">0</span></p>
-                    <p>🌈 Linhas: <span id="lines">0</span></p>
-                    <p>🎮 Level: <span id="level">0</span></p>
-                </div>
-                <div class='controls'>
-                    <h1>CONTROLES</h1>
-                    <p>Setas: controlar</p>
-                    <p>Espaço: hard drop</p>
-                    <p>Q: rotacionar</p>
-                    <p>P: pause</p>
-                    <p>Esc: finalizar game</p>
-                </div>
-                <div class='next-piece'>
-                    <h1>Próxima Peça</h1>
-                    <canvas id="next" class="next"></canvas>
-                </div>
-                <button onclick="play()" class="play-button">Play</button>
+    <div class="main-conteiner">
+        <header class="top-header">
+            <ul class="menu-itens">
+                <li>
+                    <a href="https://twitter.com/pombajoga" class="nes-icon twitter is-medium" target="_blank"></a>
+                    <a href="https://www.instagram.com/pombajoga/" class="nes-icon instagram is-medium" target="_blank"></a>
+                    <a href="https://github.com/imorettini" class="nes-icon github is-medium" target="_blank"></a>
+                </li>
+            </ul>
+        </header>
+        <div class="game-conteiner">
+            <div class="board-conteiner">
+                <canvas id="board" class="board nes-container is-rounded"></canvas>
             </div>
-        </div>
+            <div class="right-column-conteiner">
+                <ul class="right-column nes-container is-rounded">
+                    <li>
+                        <ul class='infos'>
+                            <li>
+                                <h1>TETRIS</h1>
+                            </li>
+                            <li>💎 Pontos: <span id="score">0</span></li>
+                            <li>🌈 Linhas: <span id="lines">0</span></li>
+                            <li>🎮 Level: <span id="level">0</span></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="controls">
+                            <li>
+                                <h1>CONTROLES</h1>
+                            </li>
+                            <li>Setas: controlar</li>
+                            <li>Espaço: hard drop</li>
+                            <li>Q: rotacionar</li>
+                            <li>P: pause</li>
+                            <li>Esc: finalizar game</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="next-piece">
+                            <li>
+                                <h1>Próxima Peça</h1>
+                            </li>
+                            <li><canvas id="next" class="next nes-container is-rounded"></canvas></li>
+                        </ul>
+                    </li>
+                    <button onclick="play()" class="play-button nes-btn nes-pointer">Play</button>
+                </ul>
+            </div>
 
+        </div>
+        <footer>
+            <p class="description">Desenvolvido por Amanda Morettini | Copyright &copy; 2020 | v.2.0</p>
+        </footer>
     </div>
-    <footer>
-        <p class='description'>Desenvolvido por Amanda Morettini | Copyright &copy; 2020</p>
-    </footer>
     <script type="text/javascript" src="constants.js"></script>
     <script type="text/javascript" src="board.js"></script>
     <script type="text/javascript" src="piece.js"></script>

@@ -1,7 +1,8 @@
 * {
     font-family: 'Press Start 2P', cursive;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
+    padding: 0;
+    border: 0;
 }
 
 body {
@@ -9,76 +10,108 @@ body {
 }
 
 h1 {
-    text-shadow: 2px 2px 2px #4f43ae;
+    text-shadow: 2px 2px 2px #4f43ae3b;
+}
+
+.main-conteiner {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.top-header {
+    border-top: 1px solid transparent;
+}
+
+.menu-itens {
+    margin-top: 5px;
+    text-align: center;
+    list-style: none;
 }
 
 .game-conteiner {
     display: flex;
-    position: relative;
+}
+
+.nes-container {
+    padding: 0 !important;
 }
 
 .board-conteiner {
     margin-right: 10px;
-    display: flex;
-    flex-direction: column;
     max-width: 100%;
+    max-height: 100%;
 }
 
 .board {
-    display: flex;
-    border: 2px solid;
-    border-radius: 5px;
-    border-color: #211a21;
-    background-color: #cec9cc;
+    background-color: #e7e7e7;
+    padding-bottom: 0;
 }
 
-.column-conteiner {
-    display: flex;
+.right-column-conteiner {
+    justify-items: right;
     max-width: 100%;
-    border: solid 2px;
-    border-radius: 5px;
+    max-height: 100%;
     margin-left: 15px;
 }
 
 .right-column {
-    display: flex;
-    flex-direction: column;
-    justify-self: center;
-    align-items: center;
     text-align: center;
-    border-color: #211a21;
-    background-color: #cec9cc;
+    background-color: #e7e7e7;
+}
+
+.right-column li {
+    list-style: none;
+    margin-bottom: 5px;
+}
+
+.right-column ul {
+    margin-top: 20px;
 }
 
 .next-piece {
-    display: flex;
     display: inline-block;
     font-size: 10px;
-    font-size: 10px;
     margin: 20px;
+}
+
+#next {
+    max-height: 100%;
 }
 
 .controls {
     font-size: 10px;
 }
 
-.play-button {
-    display: flex;
+.right-column>.play-button {
     max-width: 100%;
-    border-style: none;
     background-color: #05ffa1;
-    border-radius: 5px;
     font-size: 16px;
-    padding: 15px 30px;
-    cursor: pointer;
+    margin-bottom: 10px !important;
+    color: #212529;
+}
+
+.right-column>.play-button:hover {
+    color: #212529;
+    text-decoration: none;
+    background-color: #05ffa1;
+}
+
+.right-column>.play-button::after {
+    box-shadow: inset -4px -4px#02b36f;
+}
+
+.right-column>.play-button:hover::after {
+    box-shadow: inset -6px -6px #02b36f;
+}
+
+.right-column>.play-button:active:not(.is-disabled)::after {
+    box-shadow: inset 4px 4px #02b36f;
 }
 
 footer {
+    display: flex;
+    margin-top: 5px;
     text-align: center;
-    height: 30px;
-    /* Para centralizar texto de linha unica podemos colocar line-height c mesmo valor do height */
-    line-height: 30px;
-    background-color: #908a99;
     color: white;
     font-size: 14px;
     text-shadow: 2px 2px 2px black;
